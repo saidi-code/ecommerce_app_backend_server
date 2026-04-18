@@ -3,7 +3,7 @@ import connectDB from "../config/db.js";
 import { clerkClient } from '@clerk/express'
 import "dotenv/config";
 const makeAdmin = async () => {
-    await connectDB();
+    // connectDB called in server.ts
     const adminEmail = process.env.ADMIN_EMAIL as string;
     try {
         const user = await User.findOne({ email: adminEmail });
