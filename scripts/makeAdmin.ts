@@ -17,8 +17,6 @@ const makeAdmin = async () => {
         console.log(`User with email ${adminEmail} has been promoted to admin.`);
     } catch (error:any) {
         console.error('Error promoting user to admin:', error);
-    }   finally {
-        process.exit();
-    }   
+    }  
 }
 export default makeAdmin;
