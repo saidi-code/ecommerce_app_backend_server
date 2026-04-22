@@ -1,12 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
 import User from '../models/User.js';
+import mongoose from "mongoose"
 export const protect = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const {userId} = await req.auth()
+        const {userId } = await req.auth()
+      
         if(!userId) {
             return res.status(401).json({ "success": "false", "message": "Unauthorized" });
         }
-        let user = await User.findById({clerkId: userId});
+let user = await User.findOne({clerkId: userId});
         req.user = user;
         next();
     }catch(error){
