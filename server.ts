@@ -18,7 +18,7 @@ app.use(cors())
 app.use(express.json());
 app.use(clerkMiddleware());
 app.use("/api/v1", appRoutes)
-app.get('/api/v1/', (req: Request, res: Response) => {
+app.get('/', (req: Request, res: Response) => {
     console.log('Received request at /api/v1/');
     res.send('Server is Live!');
 });
