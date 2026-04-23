@@ -7,11 +7,12 @@ export const getCart = async (req:Request,res:Response)=>{
    try{
     let cart = await Cart.findOne({
         user:req.user._id
-    }).populate("items.product","name images,price,stock")
+    }).populate("items.product","name images price stock")
     if(!cart){
         cart = await Cart.create({user:req.user._id,items:[]})
     }
-    res.json({"sucess":true,data:cart})
+    console.log("Cart found for user", req.user._id, cart);
+    res.json({"success":true,data:cart})
    }catch(error:any){
     res.status(500).json({"success":false,"message":error.message})
    }
@@ -19,6 +20,7 @@ export const getCart = async (req:Request,res:Response)=>{
 // Add To Cart
 // POST /api/v1/cart/add
 export const addToCart = async (req:Request,res:Response)=>{
+   
     try {
         const {productId,quantity=1,size} = req.body
         const product = await Product.findById(productId)

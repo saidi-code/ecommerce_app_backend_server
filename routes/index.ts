@@ -7,7 +7,7 @@ import adminRoutes from "./AdminRoutes.js"
 const router = express.Router();
 router.use('/products', productsRouter); 
 router.use("/cart",cartRoutes)   
-router.use("/order",orderRoutes)
+router.use("/orders",orderRoutes)
 router.use("/addresses",addressRoutes)
 router.use("/admin",adminRoutes)
 export default router;
