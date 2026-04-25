@@ -88,7 +88,7 @@ try {
 // PUT  /api/v1/products/:id
 export const updateProduct = async (req:Request, res:Response) => {
 try { 
-    let images = []   
+    let images:any = []   
     if(req.body.existingImages) {
         if(Array.isArray(req.body.existingImages)) {
             images = [...req.body.existingImages];
@@ -129,7 +129,7 @@ if(req.body.sizes){
 }
   
 if(req.body.existingImages || (req.files && (req.files as any).length > 0)) {
-    updates.images = images;
+    updates.images = images as any;
 }
 delete updates.existingImages;
     const product = await Product.findByIdAndUpdate(req.params.id, updates, { new: true,runValidators:true });
