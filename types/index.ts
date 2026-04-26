@@ -93,5 +93,4 @@ export interface IUser extends Document {
 export interface IWishlist extends Document {
     user: Types.ObjectId;
     products: Types.ObjectId[];
-    createdAt: Date;
 }

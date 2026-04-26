@@ -64,7 +64,7 @@ export const updateCartItem = async (req: Request, res: Response) => {
   try {
     const { quantity, size } = req.body;
     const { productId } = req.params;
-    console.log(productId, quantity, size);
+ 
     const cart = await Cart.findOne({ user: req.user._id });
     if (!cart) {
       return res
@@ -77,20 +77,13 @@ export const updateCartItem = async (req: Request, res: Response) => {
       (item) =>
         item.product.toString() === productId.toString() && item.size === size,
     );
-    console.log("cart items:", cart.items);
+   
     if (!item) {
       return res
         .status(404)
         .json({ success: false, message: "Item not in cart" });
     }
-    console.log(
-      "selecting item with productId:",
-      productId,
-      "and size:",
-      size,
-      "Found item:",
-      item,
-    );
+    
     if (quantity <= 0) {
       cart.items = cart.items.filter(
         (item) =>

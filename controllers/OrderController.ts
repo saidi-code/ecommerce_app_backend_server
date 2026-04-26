@@ -134,6 +134,7 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
 export const getAllOrdes = async (req: Request, res: Response) => {
   try {
     const { page = 1, limit = 20, status } = req.query;
+   
     const query: any = {};
     if (status) query.orderStatus = status;
     const total = await Order.countDocuments(query);
@@ -141,7 +142,7 @@ export const getAllOrdes = async (req: Request, res: Response) => {
       .populate("user", "name email")
       .populate("items.product", "name")
       .sort("-createdAt")
-      .skip(Number(page) - 1 * Number(limit));
+      .skip((Number(page) - 1) * Number(limit));
     res.json({
       success: true,
       data: orders,
@@ -152,6 +153,7 @@ export const getAllOrdes = async (req: Request, res: Response) => {
       },
     });
   } catch (error: any) {
+   
     res.status(500).json({ success: false, message: error.message });
   }
 };
