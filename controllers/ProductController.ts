@@ -6,8 +6,29 @@ import cloudinary from '../config/cloundinary.js';
 
 export const getProducts = async (req:Request, res:Response) => {
 try {
-    const {page = 1, limit = 10} = req.query;
-    const query:any = {isActive: true};
+    const {page = 1, limit = 10,search,sizes,categories,minPrice,maxPrice} = req.query;
+    let query:any = {isActive: true};
+    console.log("data recived from frontend",req.query)
+  if(search){
+    query.$or = [
+      { name: { $regex: search, $options: 'i' } },
+      { description: { $regex: search, $options: 'i' } }
+    ];
+  }
+  if(sizes){
+    const sizeArray = Array.isArray(sizes) ? sizes : String(sizes).split(',').map(s => s.trim()).filter(Boolean);
+    query.sizes = { $in: sizeArray };
+  }
+  if(categories){
+    const categoryArray = Array.isArray(categories) ? categories : String(categories).split(',').map(c => c.trim()).filter(Boolean);
+    query.category = { $in: categoryArray };
+  }
+  if(minPrice || maxPrice){
+    query.price = {};
+    if(minPrice) query.price.$gte = Number(minPrice);
+    if(maxPrice) query.price.$lte = Number(maxPrice);
+  }
+  console.log("query aply for filter",query)
     const total = await Product.countDocuments(query);
     const products = await Product.find(query).skip((Number(page) - 1) * Number(limit)).limit(Number(limit));
     res.json({ "success": true, 
@@ -76,7 +97,7 @@ try {
         return res.json({ "success": false, "message": "At least one image is required" });
     }
     const product = await Product.create(productData);
-    
+  
     res.status(201).json({ "success": true, 
         data:product });
 } catch (error:any) {
