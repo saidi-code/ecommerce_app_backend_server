@@ -1,9 +1,13 @@
-# Fix Product Filters TODO
+# Fix WishListController BSONError
 
-- [x] Read Product model and controller to understand schema and current filter logic
-- [x] Fix `search` filter: case-insensitive regex on `name` and `description`
-- [x] Fix `sizes` filter: parse input and use `$in` operator on `sizes` array field
-- [x] Fix `categories` filter: parse input and use `$in` operator on `category` field (singular in schema)
-- [x] Fix `minPrice` / `maxPrice` filter: use `$gte` / `$lte` on the `price` field
-- [x] Test endpoint with combined query parameters
+## Steps:
+- [x] 1. Add productId validation and remove unnecessary ObjectId constructors in AddToWishList
+- [x] 2. Fix userId handling (use req.user._id directly)
+- [x] 3. Fix removeFromWishList query filter
+- [x] 4. Fix getWishList syntax (WishList.findOne)
+- [ ] 5. Test endpoints
+- [ ] 6. Mark complete
 
+✅ Steps 1-4 completed. Controllers/WishListController.ts fixed: added validation to prevent BSONError, removed risky new ObjectId() calls, fixed bugs in all functions.
+
+Next: Test

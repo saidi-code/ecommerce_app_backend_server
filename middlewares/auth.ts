@@ -4,12 +4,13 @@ import mongoose from "mongoose"
 export const protect = async (req:Request, res:Response, next:NextFunction) => {
     try {
         const {userId } = await req.auth()
-      
+    
         if(!userId) {
             return res.status(401).json({ "success": "false", "message": "Unauthorized" });
         }
 let user = await User.findOne({clerkId: userId});
         req.user = user;
+        
         next();
     }catch(error){
         console.error("Error in auth middleware", error);

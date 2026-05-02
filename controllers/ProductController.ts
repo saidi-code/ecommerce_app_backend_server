@@ -8,7 +8,7 @@ export const getProducts = async (req:Request, res:Response) => {
 try {
     const {page = 1, limit = 10,search,sizes,categories,minPrice,maxPrice} = req.query;
     let query:any = {isActive: true};
-    console.log("data recived from frontend",req.query)
+    
   if(search){
     query.$or = [
       { name: { $regex: search, $options: 'i' } },
@@ -28,7 +28,7 @@ try {
     if(minPrice) query.price.$gte = Number(minPrice);
     if(maxPrice) query.price.$lte = Number(maxPrice);
   }
-  console.log("query aply for filter",query)
+ 
     const total = await Product.countDocuments(query);
     const products = await Product.find(query).skip((Number(page) - 1) * Number(limit)).limit(Number(limit));
     res.json({ "success": true, 
@@ -189,6 +189,7 @@ try {    const product = await Product.findByIdAndUpdate(req.params.id, { isActi
     res.json({ "success": true, 
         message:"Product deleted successfully" });
 } catch (error) {
+    console.error("Error remove product", error);
     res.status(500).json({ "success":false, "message": "Error deleting product", error });
 }   
 }
